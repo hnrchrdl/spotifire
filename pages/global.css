@@ -1,0 +1,114 @@
+:global(html) {
+  height: 100%;
+  margin: 0 !important;
+}
+:global(body) {
+  margin: 0 !important;
+  background: #2f3640;
+  color: #f5f6fa;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
+    "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;
+  height: 100%;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  /* #00a8ff protoss pylon */
+  /* #f5f6fa lynk white */
+  /* #7f8fa6 blueberry soda */
+  /* #353b48 blueberry nights */
+  /* #c23616 harley davidson orange */
+  /* #192a56 pico void */
+}
+:global(a) {
+  color: #f5f6fa;
+  transition: color 0.3s;
+}
+:global(a:hover) {
+  color: #00a8ff;
+}
+:global(button) {
+  border: 0;
+  background: #00a8ff;
+  color: #f5f6fa;
+  box-shadow: none;
+  border-radius: 0px;
+  padding: 0 30px;
+  cursor: pointer;
+  transition: background 0.3s;
+  height: 49px;
+}
+:global(button:hover) {
+  background: #c23616;
+}
+/* scrollbars */
+:global(*::-webkit-scrollbar) {
+  width: 0.5em;
+}
+:global(*::-webkit-scrollbar-track) {
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  background-color: #2f3640;
+}
+:global(*::-webkit-scrollbar-thumb) {
+  background-color: #00a8ff;
+  outline: none;
+}
+
+/* rc-slider styles */
+:global(.rc-slider) {
+  position: relative;
+  height: 14px;
+  padding: 5px 0;
+  width: 100%;
+  -ms-touch-action: none;
+  touch-action: none;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: #00a8ff;
+}
+:global(.rc-slider-rail) {
+  position: absolute;
+  width: 100%;
+  background-color: #7f8fa6;
+  height: 4px;
+}
+:global(.rc-slider-track) {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  border-radius: 6px;
+  background-color: #00a8ff;
+}
+:global(.rc-slider-step) {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+}
+:global(.rc-slider-handle) {
+  position: absolute;
+  margin-left: -7px;
+  margin-top: -4px;
+  width: 8px;
+  height: 8px;
+  cursor: pointer;
+  cursor: -webkit-grab;
+  cursor: grab;
+  border-radius: 50%;
+  border: solid 2px #c23616;
+  background-color: #c23616;
+  -ms-touch-action: pan-x;
+  touch-action: pan-x;
+}
+:global(.rc-slider-mark) {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 100%;
+  font-size: 12px;
+}
+:global(.rc-slider-mark-text) {
+  position: absolute;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  color: #7f8fa6;
+}

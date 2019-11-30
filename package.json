@@ -1,0 +1,48 @@
+{
+  "name": "spotifire",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "encrypt:delete": "rm .env.prod.enc",
+    "encrypt:perform": "travis encrypt-file .env.prod",
+    "dev": "nodemon -w server/index.js server/index.js",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "firebase": "^7.5.0",
+    "firebase-admin": "^8.8.0",
+    "fontfaceobserver": "^2.1.0",
+    "keygrip": "^1.0.3",
+    "next": "^9.1.4",
+    "passport": "^0.4.0",
+    "passport-spotify": "^1.0.1",
+    "prop-types": "^15.6.2",
+    "rc-slider": "^8.6.4",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "spotify-web-api-node": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.11.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "nodemon": "^1.18.9",
+    "now": "^16.6.0"
+  }
+}
