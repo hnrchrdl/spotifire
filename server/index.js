@@ -9,17 +9,27 @@ const passport = require('passport');
 const admin = require('firebase-admin');
 const SpotifyConnection = require('./spotify').getDefaultConnection();
 
+/*
+  Environment
+*/
+
 const clientID = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const callbackURL = process.env.SPOTIFY_CALLBACK_URL;
+const firebaseProjectID = process.env.FIREBASE_PROJECT_ID;
+const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+const firebaseClientEmail = process.env.FIREBASE_CLIENT_EMAIL;
 
 /*
   Firebase
 */
-const serviceAccount = require('../serviceAccountKey.js');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert({
+    project_id: firebaseProjectID,
+    private_key: firebasePrivateKey,
+    client_email: firebaseClientEmail,
+  }),
   databaseURL: 'https://spotifire-8f25c.firebaseio.com',
 });
 
