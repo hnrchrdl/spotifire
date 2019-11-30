@@ -16,7 +16,7 @@ const callbackURL = process.env.SPOTIFY_CALLBACK_URL;
 /*
   Firebase
 */
-const serviceAccount = require('../serviceAccountKey.json');
+const serviceAccount = require('../serviceAccountKey.js');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

@@ -3,4 +3,3 @@ node_modules
 .vscode
 .env
 .env.prod
-serviceAccountKey.json

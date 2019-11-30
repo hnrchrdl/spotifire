@@ -8,7 +8,8 @@
     "encrypt:perform": "travis encrypt-file .env.prod",
     "dev": "nodemon -w server/index.js server/index.js",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "npm run build"
   },
   "author": "",
   "license": "ISC",
