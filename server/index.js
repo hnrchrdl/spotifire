@@ -7,15 +7,15 @@ const keygrip = require('keygrip');
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const passport = require('passport');
 const admin = require('firebase-admin');
-const SpotifyConnection = require('./spotify').getDefaultConnection();
+const SpotifyWebApi = require('spotify-web-api-node');
 
 /*
   Environment
 */
 
-const clientID = process.env.SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const callbackURL = process.env.SPOTIFY_CALLBACK_URL;
+const spotifyClientId = process.env.SPOTIFY_CLIENT_ID;
+const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const spotifyCallbackUri = process.env.SPOTIFY_CALLBACK_URL;
 const firebaseProjectID = process.env.FIREBASE_PROJECT_ID;
 const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
 const firebaseClientEmail = process.env.FIREBASE_CLIENT_EMAIL;
@@ -36,6 +36,11 @@ admin.initializeApp({
 /*
   Spotify
 */
+const Spotify = new SpotifyWebApi({
+  clientId: spotifyClientId,
+  clientSecret: spotifyClientSecret,
+  redirectUri: spotifyCallbackUri,
+});
 // minimize auth scope usage.
 const SPOTIFY_AUTH_SCOPES = [
   'user-read-private',
@@ -51,7 +56,8 @@ const SPOTIFY_AUTH_SCOPES = [
 ];
 // TODO randomize?
 const SPOTIFY_AUTH_STATE = 'fdsaoiewjiewoiagre4234wegegsewaoi';
-const spotifyAuthUrl = SpotifyConnection.createAuthorizeURL(
+
+const spotifyAuthUrl = Spotify.createAuthorizeURL(
   SPOTIFY_AUTH_SCOPES,
   SPOTIFY_AUTH_STATE,
   false,
@@ -71,9 +77,9 @@ passport.deserializeUser((user, done) => {
 passport.use(
   new SpotifyStrategy(
     {
-      clientID,
-      clientSecret,
-      callbackURL,
+      clientID: spotifyClientId,
+      clientSecret: spotifyClientSecret,
+      callbackURL: spotifyCallbackUri,
     },
     (accessToken, refreshToken, expiresIn, user, done) => {
       const db = admin.firestore();
