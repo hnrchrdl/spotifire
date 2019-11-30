@@ -20,6 +20,8 @@ const firebaseProjectID = process.env.FIREBASE_PROJECT_ID;
 const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
 const firebaseClientEmail = process.env.FIREBASE_CLIENT_EMAIL;
 
+console.log(spotifyCallbackUri, spotifyClientId, spotifyClientSecret);
+
 /*
   Firebase
 */
