@@ -1,5 +1,4 @@
 import './global.css';
-
 import React from 'react';
 import App from 'next/app';
 
