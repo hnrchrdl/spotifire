@@ -14,12 +14,14 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
-exports.getUser = id => db.collection('users').doc(id);
+exports.setUser = async (user) => {
+  const docRef = db.collection('users').doc(user.id);
+  await docRef.set(user, { merge: true });
 
-exports.setUser = (user) => {
-  const userDocRef = db.collection('users').doc(user.id);
-  userDocRef.set(user, { merge: true });
-  return userDocRef;
+  const doc = await docRef.get();
+  return doc.data();
 };
 
-exports.toJson = doc => doc.get().then(snapshot => snapshot.data());
+exports.getAvailablePlaylists = () => db.collection('playlists').get().then(
+  collection => collection.docs.map(doc => ({ ...doc.data(), id: doc.id })),
+);

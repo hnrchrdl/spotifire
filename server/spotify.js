@@ -1,6 +1,10 @@
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const SpotifyWebApi = require('spotify-web-api-node');
 
+const {
+  setUser, getAvailablePlaylists,
+} = require('./db');
+
 const spotifyClientId = process.env.SPOTIFY_CLIENT_ID;
 const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const spotifyCallbackUri = process.env.SPOTIFY_CALLBACK_URL;
@@ -18,10 +22,8 @@ const SPOTIFY_AUTH_SCOPES = [
   'user-read-recently-played',
   'user-top-read',
 ];
-  // TODO randomize?
+// TODO randomize?
 const SPOTIFY_AUTH_STATE = 'fdsaoiewjiewoiagre4234wegegsewaoi';
-
-const { getUser, toJson } = require('./db');
 
 exports.SpotifyConnetion = new SpotifyWebApi({
   clientId: spotifyClientId,
@@ -35,12 +37,14 @@ exports.SpotifyAuthStrategy = new SpotifyStrategy(
     clientSecret: spotifyClientSecret,
     callbackURL: spotifyCallbackUri,
   },
-  (accessToken, refreshToken, expiresIn, user, done) => {
-    const { id } = user;
-    const doc = getUser(id);
-    toJson(doc).then((userData) => {
-      done(null, { ...userData });
-    });
+  async (accessToken, refreshToken, expiresIn, user, done) => {
+    try {
+      const userData = await setUser(user);
+      const playlists = await getAvailablePlaylists();
+      done(null, { user: userData, playlists });
+    } catch (e) {
+      done(e);
+    }
   },
 );
 
