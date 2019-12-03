@@ -7,15 +7,13 @@ import css from './Header.css';
 function Header({ user }) {
   return (
     <header className={css.header}>
-      <div className={css.logo}>
-        <span>Spotifire</span>
-
-        <div className={css.user}>
-          <FontAwesomeIcon icon={faSpotify} />
-          {' '}
-          {user.displayName}
-        </div>
+      <span className={css.logo}>Spotifire</span>
+      <div className={css.user}>
+        <FontAwesomeIcon icon={faSpotify} />
+        {' '}
+        {user.displayName}
       </div>
+
     </header>
   );
 }

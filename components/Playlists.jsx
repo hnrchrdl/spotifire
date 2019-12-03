@@ -1,7 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import css from './Playlists.css';
+import Toggle from './Toggle';
 
 function Playlists({ playlists }) {
   if (!playlists || !playlists.length) {
@@ -13,7 +12,7 @@ function Playlists({ playlists }) {
         <span className={css.title}>
           { playlist.name }
         </span>
-        <span className={css.check}><FontAwesomeIcon icon={faToggleOff} /></span>
+        <Toggle />
       </div>
       <div className={css.description}>
         { playlist.description }

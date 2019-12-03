@@ -1,0 +1,13 @@
+.toggle {
+    border: 0;
+    background: transparent;
+    color: #f5f6fa;
+    box-shadow: none;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: background 0.3s;
+    height: 49px;
+    padding: 0 20px;
+    font-size: 20px;
+    background-color: rgb(245, 246, 250, .1);
+}

@@ -25,20 +25,6 @@
 :global(a:hover) {
   color: #00a8ff;
 }
-:global(button) {
-  border: 0;
-  background: #00a8ff;
-  color: #f5f6fa;
-  box-shadow: none;
-  border-radius: 0px;
-  padding: 0 30px;
-  cursor: pointer;
-  transition: background 0.3s;
-  height: 49px;
-}
-:global(button:hover) {
-  background: #c23616;
-}
 /* scrollbars */
 :global(*::-webkit-scrollbar) {
   width: 0.5em;
