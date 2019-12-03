@@ -22,6 +22,13 @@ exports.setUser = async (user) => {
   return doc.data();
 };
 
-exports.getAvailablePlaylists = () => db.collection('playlists').get().then(
-  collection => collection.docs.map(doc => ({ ...doc.data(), id: doc.id })),
-);
+exports.getUser = async (id) => {
+  const docRef = db.collection('users').doc(id);
+
+  const doc = await docRef.get();
+  return doc.data();
+};
+
+// exports.getAvailablePlaylists = () => db.collection('playlists').get().then(
+//   collection => collection.docs.map(doc => ({ ...doc.data(), id: doc.id })),
+// );

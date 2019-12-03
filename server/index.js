@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 const keygrip = require('keygrip');
 const passport = require('passport');
 const { SpotifyAuthStrategy, createSpotifyAuthUrl } = require('./spotify');
+const API = require('./controller');
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -61,7 +62,8 @@ app
     );
 
     // API
-    server.get('/api/me', (req, res) => res.json(req.user));
+    server.get('/api/me', API.getMe);
+    server.get('/api/playlist/available', API.getAvailablePlaylists);
 
     // All other routes: render next app.
     server.get('*', (req, res) => app.getRequestHandler()(req, res));

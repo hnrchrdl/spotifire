@@ -1,9 +1,6 @@
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const SpotifyWebApi = require('spotify-web-api-node');
-
-const {
-  setUser, getAvailablePlaylists,
-} = require('./db');
+const { setUser } = require('./firebase');
 
 const spotifyClientId = process.env.SPOTIFY_CLIENT_ID;
 const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -37,11 +34,17 @@ exports.SpotifyAuthStrategy = new SpotifyStrategy(
     clientSecret: spotifyClientSecret,
     callbackURL: spotifyCallbackUri,
   },
-  async (accessToken, refreshToken, expiresIn, user, done) => {
+  async (accessToken, refreshToken, expiresIn, profile, done) => {
     try {
-      const userData = await setUser(user);
-      const playlists = await getAvailablePlaylists();
-      done(null, { user: userData, playlists });
+      const user = {
+        accessToken,
+        refreshToken,
+        expiresIn,
+        ...profile,
+      };
+      await setUser(user);
+
+      done(null, user);
     } catch (e) {
       done(e);
     }
