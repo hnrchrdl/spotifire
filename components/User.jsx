@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import css from './Index.css';
+import css from './User.css';
+import Header from './Header';
+import Playlists from './Playlists';
 
 class Index extends React.PureComponent {
   render() {
     const { user, playlists } = this.props;
     return (
-      <div className={css.container}>
-        Hi
-        {' '}
-        {user.displayName}
-        <button type="button">start</button>
-        <button type="button">stop</button>
-        <div>
-          { playlists.map(playlist => <span key={playlist.id}>{ playlist.id + playlist.name }</span>) }
+      <>
+        <Header user={user} />
+        <div className={css.container}>
+          <div className={css.inner}>
+            <Playlists playlists={playlists} />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }

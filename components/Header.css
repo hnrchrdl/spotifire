@@ -1,0 +1,18 @@
+.header {
+    padding: 40px;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    border-bottom: 1px solid rgb(245, 246, 250, .3);
+}
+.logo {
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+}
+.user {
+    float: right;
+    font-size: 18px;
+    max-width: 600px;
+
+}

@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+
+}
+.inner {
+    max-width: 600px;
+}
