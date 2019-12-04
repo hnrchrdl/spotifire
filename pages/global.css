@@ -1,10 +1,10 @@
 :global(html) {
-  height: 100%;
   margin: 0 !important;
 }
 :global(body) {
   margin: 0 !important;
   background: #2f3640;
+  /* background: #7f8fa6; */
   color: #f5f6fa;
   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
     "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;

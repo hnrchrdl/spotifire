@@ -3,6 +3,7 @@ import React from 'react';
 import css from './User.css';
 import Header from './Header';
 import Playlists from './Playlists';
+import Footer from './Footer';
 
 class Index extends React.PureComponent {
   render() {
@@ -15,6 +16,7 @@ class Index extends React.PureComponent {
             <Playlists playlists={playlists} />
           </div>
         </div>
+        <Footer />
       </>
     );
   }
