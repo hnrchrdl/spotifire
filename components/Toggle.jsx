@@ -1,12 +1,14 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+import cx from 'classnames';
 import css from './Toggle.css';
 
-function Toggle() {
+function Toggle({ onClick, enabled }) {
   return (
-    <button type="button" className={css.toggle}>
-      <span className={css.check}><FontAwesomeIcon icon={faToggleOff} /></span>
+    <button type="button" className={cx(css.toggle, { [css.enabled]: enabled })} onClick={onClick}>
+      <FontAwesomeIcon icon={enabled ? faToggleOn : faToggleOff} />
     </button>
   );
 }

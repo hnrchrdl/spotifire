@@ -14,9 +14,9 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
-exports.setUser = async (user) => {
+exports.setUser = async (user, options = { merge: true }) => {
   const docRef = db.collection('users').doc(user.id);
-  await docRef.set(user, { merge: true });
+  await docRef.set(user, { merge: options.merge });
 
   const doc = await docRef.get();
   return doc.data();
@@ -28,7 +28,3 @@ exports.getUser = async (id) => {
   const doc = await docRef.get();
   return doc.data();
 };
-
-// exports.getAvailablePlaylists = () => db.collection('playlists').get().then(
-//   collection => collection.docs.map(doc => ({ ...doc.data(), id: doc.id })),
-// );

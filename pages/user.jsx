@@ -1,6 +1,6 @@
 import React from 'react';
 import User from '../components/User';
-import UserService from '../services/user';
+import UserService from '../services/userService';
 import PlaylistService from '../services/playlistService';
 
 class UserPage extends React.PureComponent {

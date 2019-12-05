@@ -1,7 +1,7 @@
 .toggle {
     border: 0;
     background: transparent;
-    color: #f5f6fa;
+    color: #7f8fa6;
     box-shadow: none;
     border-radius: 0px;
     cursor: pointer;
@@ -9,5 +9,8 @@
     height: 49px;
     padding: 0 20px;
     font-size: 20px;
-    background-color: rgb(245, 246, 250, .1);
+    transition: color .3s ease-in-out;
+}
+.enabled {
+    color: #f5f6fa;
 }
