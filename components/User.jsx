@@ -5,7 +5,6 @@ import Header from './Header';
 import Playlists from './Playlists';
 import Footer from './Footer';
 import UserService from '../services/userService';
-import PlaylistService from '../services/playlistService';
 
 class User extends React.PureComponent {
   state = {
@@ -15,11 +14,11 @@ class User extends React.PureComponent {
 
   onTogglePlaylist = async (id) => {
     const userService = new UserService();
-    userService.togglePlaylist(id);
+    userService.toggleSubscription(id);
     this.setState(({ user }) => ({
       user: {
         ...user,
-        playlists: PlaylistService.togglePlaylist(user.playlists, id),
+        subscriptions: UserService.toggleSubscription(user.subscriptions, id),
       },
     }));
   };
@@ -34,7 +33,7 @@ class User extends React.PureComponent {
           <div className={css.inner}>
             <Playlists
               playlists={playlists}
-              subscribed={user.playlists}
+              subscriptions={user.subscriptions}
               onToggle={this.onTogglePlaylist}
             />
           </div>

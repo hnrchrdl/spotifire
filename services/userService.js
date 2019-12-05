@@ -1,10 +1,20 @@
 import request, { serialize } from './requestService';
-import PlaylistService from './playlistService';
 
 class UserService {
   constructor(req) {
     this.request = request(req);
   }
+
+  static toggleSubscription = (subscriptions = {}, id) => {
+    if (subscriptions[id]) {
+      const { [id]: x, ...other } = subscriptions;
+      return other;
+    }
+    return {
+      ...subscriptions,
+      [id]: {},
+    };
+  };
 
   getMe() {
     return this.request.get('me').then(serialize);
@@ -14,9 +24,9 @@ class UserService {
     return this.request.post('me', data).then(serialize);
   }
 
-  togglePlaylist(id) {
-    return this.getMe().then(({ playlists = [] }) => this.setMe({
-      playlists: PlaylistService.togglePlaylist(playlists, id),
+  toggleSubscription(id) {
+    return this.getMe().then(({ subscriptions = {} }) => this.setMe({
+      subscriptions: UserService.toggleSubscription(subscriptions, id),
     }));
   }
 }

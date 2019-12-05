@@ -11,9 +11,8 @@ class UserPage extends React.PureComponent {
     const playlistService = new PlaylistService(req);
     const playlists = await playlistService.getAvailable();
 
-    return { user: user || {}, playlists: playlists || [] };
-  }
-  ;
+    return { user: user || {}, playlists };
+  };
 
   render() {
     const { props } = this;
