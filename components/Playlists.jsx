@@ -9,7 +9,7 @@ function Playlists({ playlists = [], subscriptions = {}, onToggle }) {
         <span className={css.title}>{playlist.name}</span>
         <Toggle
           onClick={() => onToggle(playlist.id)}
-          enabled={Boolean(subscriptions[playlist.id])}
+          enabled={Boolean(subscriptions[playlist.id].enabled)}
         />
       </div>
       <div className={css.description}>{playlist.description}</div>

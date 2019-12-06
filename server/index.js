@@ -62,9 +62,12 @@ app
     );
 
     // API
+    server.get('/api/playlist/available', Controller.getAvailablePlaylists);
+    server.get('/api/playlist/upsert/:id', Controller.upsertPlaylist);
     server.get('/api/me', Controller.getMe);
     server.post('/api/me', Controller.setMe);
-    server.get('/api/playlist/available', Controller.getAvailablePlaylists);
+    server.get('/api/me/recos', Controller.getMyRecommendations);
+
 
     // All other routes: render next app.
     server.get('*', (req, res) => app.getRequestHandler()(req, res));

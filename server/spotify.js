@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const SpotifyWebApi = require('spotify-web-api-node');
 const { setUser } = require('./firebase');
 
-const spotifyClientId = process.env.SPOTIFY_CLIENT_ID;
-const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const spotifyCallbackUri = process.env.SPOTIFY_CALLBACK_URL;
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirectUri = process.env.SPOTIFY_CALLBACK_URL;
 
 // minimize auth scope usage.
 const SPOTIFY_AUTH_SCOPES = [
@@ -22,24 +23,52 @@ const SPOTIFY_AUTH_SCOPES = [
 // TODO randomize?
 const SPOTIFY_AUTH_STATE = 'fdsaoiewjiewoiagre4234wegegsewaoi';
 
-exports.SpotifyConnetion = new SpotifyWebApi({
-  clientId: spotifyClientId,
-  clientSecret: spotifyClientSecret,
-  redirectUri: spotifyCallbackUri,
-});
+exports.getAuthenticatedConnection = (req) => {
+  const {
+    user: {
+      id, accessToken, refreshToken, expiresOn,
+    },
+  } = req;
+  const connection = new SpotifyWebApi({ clientId, clientSecret, redirectUri });
+
+  connection.setAccessToken(accessToken);
+  if (new Date() > new Date(expiresOn)) {
+    try {
+      console.log('refresh');
+      connection.setRefreshToken(refreshToken);
+      return connection.refreshAccessToken().then((data) => {
+        const { access_token, expires_in } = data.body;
+        connection.setAccessToken(access_token);
+        const newExpiresOn = new Date();
+        newExpiresOn.setSeconds(newExpiresOn.getSeconds() + expires_in);
+        req.session.passport.user.accessToken = access_token;
+        req.session.passport.user.expiresOn = newExpiresOn;
+        return setUser({ id, accessToken: access_token, expiresOn: newExpiresOn }).then(() => connection);
+      });
+    } catch (e) {
+      return connection;
+    }
+  }
+  return Promise.resolve(connection);
+};
+
+exports.SpotifyConnetion = new SpotifyWebApi({ clientId, clientSecret, redirectUri });
 
 exports.SpotifyAuthStrategy = new SpotifyStrategy(
   {
-    clientID: spotifyClientId,
-    clientSecret: spotifyClientSecret,
-    callbackURL: spotifyCallbackUri,
+    clientID: clientId,
+    clientSecret,
+    callbackURL: redirectUri,
   },
   async (accessToken, refreshToken, expiresIn, profile, done) => {
     try {
+      const expiresOn = new Date();
+      expiresOn.setSeconds(expiresOn.getSeconds() + expiresIn);
       const user = {
         accessToken,
         refreshToken,
         expiresIn,
+        expiresOn,
         ...profile,
       };
       await setUser(user);
