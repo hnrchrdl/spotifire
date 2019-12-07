@@ -71,7 +71,6 @@ const upsertPlaylist = async (req, res) => {
           subscription.name
         );
         spotifyPlaylist = newPlaylist.body;
-        console.log("created");
       } catch (e) {
         res
           .status(500)

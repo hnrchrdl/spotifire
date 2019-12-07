@@ -12,6 +12,10 @@ class PlaylistService {
   upsertPlaylist(id, user) {
     return this.request.post(`playlist/upsert/${id}`, { user }).then(serialize);
   }
+
+  removePlaylist(id, user) {
+    return this.request.post(`playlist/remove/${id}`, { user }).then(serialize);
+  }
 }
 
 export default PlaylistService;

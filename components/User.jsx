@@ -21,13 +21,14 @@ class User extends React.PureComponent {
     this.setState(
       ({ user }) => {
         enabled = !((user.subscriptions || {})[id] || {}).enabled;
+
         return {
           user: {
             ...user,
             subscriptions: {
               ...(user.subscriptions || {}),
               [id]: {
-                ...((user.subscriptions || {})[id] || {}),
+                ...(enabled ? (user.subscriptions || {})[id] || {} : {}),
                 enabled
               }
             }
@@ -35,23 +36,28 @@ class User extends React.PureComponent {
         };
       },
       async () => {
+        const { user } = this.state;
         if (enabled) {
-          const { user } = this.state;
           try {
             const updatedUser = await playlistService.upsertPlaylist(id, user);
             this.setState({
               user: updatedUser
             });
-            return;
           } catch (e) {
             console.error(e);
             throw e;
           }
+        } else {
+          userService.setMe({
+            subscriptions: {
+              ...user.subscriptions,
+              [id]: {
+                enabled: false,
+                playlistDetails: null
+              }
+            }
+          });
         }
-        const {
-          user: { subscriptions }
-        } = this.state;
-        await userService.setMe({ subscriptions });
       }
     );
   };
