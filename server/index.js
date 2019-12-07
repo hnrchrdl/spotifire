@@ -63,7 +63,7 @@ app
 
     // API
     server.get('/api/playlist/available', Controller.getAvailablePlaylists);
-    server.get('/api/playlist/upsert/:id', Controller.upsertPlaylist);
+    server.post('/api/playlist/upsert/:id', Controller.upsertPlaylist);
     server.get('/api/me', Controller.getMe);
     server.post('/api/me', Controller.setMe);
     server.get('/api/me/recos', Controller.getMyRecommendations);

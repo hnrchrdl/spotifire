@@ -9,8 +9,8 @@ class PlaylistService {
     return this.request.get('playlist/available').then(serialize);
   }
 
-  upsertPlaylist(id) {
-    return this.request.get(`playlist/upsert/${id}`).then(serialize);
+  upsertPlaylist(id, user) {
+    return this.request.post(`playlist/upsert/${id}`, { user }).then(serialize);
   }
 
   removePlaylist(id) {

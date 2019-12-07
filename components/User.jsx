@@ -17,29 +17,35 @@ class User extends React.PureComponent {
     const userService = new UserService();
     const playlistService = new PlaylistService();
     let enabled;
-    this.setState(({ user }) => {
-      enabled = !user.subscriptions[id].enabled;
-      return {
-        user: {
-          ...user,
-          subscriptions: {
-            ...user.subscriptions,
-            [id]: {
-              ...user.subscriptions[id],
-              enabled,
+    this.setState(
+      ({ user }) => {
+        enabled = !user.subscriptions[id].enabled;
+        return {
+          user: {
+            ...user,
+            subscriptions: {
+              ...user.subscriptions,
+              [id]: {
+                ...user.subscriptions[id],
+                enabled,
+              },
             },
           },
-        },
-      };
-    }, async () => {
-      const { user: { subscriptions } } = this.state;
-      await userService.setMe({ subscriptions });
-      if (enabled) {
-        await playlistService.upsertPlaylist(id);
-      } else {
-        await playlistService.removePlaylist(id);
-      }
-    });
+        };
+      },
+      async () => {
+        const {
+          user: { subscriptions },
+        } = this.state;
+        const user = await userService.setMe({ subscriptions });
+        if (enabled) {
+          const data = await playlistService.upsertPlaylist(id, user);
+          console.log(data);
+        } else {
+          await playlistService.removePlaylist(id);
+        }
+      },
+    );
   };
 
   render() {
