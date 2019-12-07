@@ -116,7 +116,7 @@ app
     server.post("/api/me", ensureAuthenticated, Controller.setMe);
 
     // Cron
-    server.get("/api/cron/daily", basicAuth, Controller.getMyRecommendations);
+    server.get("/api/cron/:playlistId", basicAuth, Controller.cronUpdates);
 
     // All other routes: render next app.
     server.get("*", (req, res) => app.getRequestHandler()(req, res));

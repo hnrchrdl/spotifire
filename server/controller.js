@@ -87,3 +87,7 @@ exports.setMe = async (req, res) => {
 
   res.json(user);
 };
+
+exports.cronUpdates = async (req, res) => {
+  res.json("ok here");
+};
