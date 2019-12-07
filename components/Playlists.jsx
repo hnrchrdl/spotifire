@@ -4,11 +4,13 @@ import Toggle from "./Toggle";
 
 function Playlists({ playlists = [], subscriptions = {}, onToggle }) {
   return playlists.map(playlist => {
-    const subscription = subscriptions[playlist.id];
-    const { playlistDetails } = subscription;
+    const subscription = subscriptions[playlist.id] || {};
+    const { playlistDetails = {} } = subscription;
     return (
       <div key={playlist.id} className={css.playlist}>
-        {playlistDetails ? (
+        {playlistDetails &&
+        playlistDetails.images &&
+        playlistDetails.images.length ? (
           <div className={css.imageContainer}>
             <img
               className={css.image}
@@ -28,15 +30,17 @@ function Playlists({ playlists = [], subscriptions = {}, onToggle }) {
             />
           </div>
           <div className={css.description}>{playlist.description}</div>
-          {playlistDetails && (
-            <a
-              href={playlistDetails.external_urls.spotify}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on Spotify
-            </a>
-          )}
+          {playlistDetails &&
+            playlistDetails.external_urls &&
+            playlistDetails.external_urls.spotify && (
+              <a
+                href={playlistDetails.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on Spotify
+              </a>
+            )}
         </div>
       </div>
     );

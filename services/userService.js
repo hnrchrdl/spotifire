@@ -12,10 +12,6 @@ class UserService {
   setMe(data) {
     return this.request.post("me", data).then(serialize);
   }
-
-  getRecos() {
-    return this.request.get("me/recos").then(serialize);
-  }
 }
 
 export default UserService;

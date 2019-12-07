@@ -6,9 +6,24 @@ const cookieSession = require("cookie-session");
 const keygrip = require("keygrip");
 const passport = require("passport");
 const { SpotifyAuthStrategy, createSpotifyAuthUrl } = require("./spotify");
-const Controller = require("./controller");
-const basicAuth = require("express-basic-auth");
-const registerCronRoutes = require("./cron");
+const registerApiController = require("./api");
+const registerCronController = require("./cron");
+
+if (!("toJSON" in Error.prototype))
+  // eslint-disable-next-line no-extend-native
+  Object.defineProperty(Error.prototype, "toJSON", {
+    value() {
+      const alt = {};
+
+      Object.getOwnPropertyNames(this).forEach(function(key) {
+        alt[key] = this[key];
+      }, this);
+
+      return alt;
+    },
+    configurable: true,
+    writable: true
+  });
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -19,15 +34,6 @@ passport.deserializeUser((user, done) => {
 });
 
 passport.use(SpotifyAuthStrategy);
-
-// Authentication middleware
-// eslint-disable-next-line consistent-return
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ error: "not authenticated" });
-}
 
 const dev = process.env.NODE_ENV !== "production";
 const app = nextjs({ dev });
@@ -62,12 +68,12 @@ app
       Controller
     */
 
-    // Index route
+    // Index
     server.get("/", (req, res) =>
       app.render(req, res, "/index", { spotifyAuthUrl })
     );
 
-    // Spotify auth callback route
+    // Spotify auth callback
     server.get(
       "/auth/spotify/callback",
       passport.authenticate("spotify", { failureRedirect: "/error" }),
@@ -75,20 +81,10 @@ app
     );
 
     // API
-    server.get(
-      "/api/playlist/available",
-      ensureAuthenticated,
-      Controller.getAvailablePlaylists
-    );
-    server.post(
-      "/api/playlist/upsert/:id",
-      ensureAuthenticated,
-      Controller.upsertPlaylist
-    );
-    server.get("/api/me", ensureAuthenticated, Controller.getMe);
-    server.post("/api/me", ensureAuthenticated, Controller.setMe);
+    registerApiController(server);
 
-    registerCronRoutes(server);
+    // Cron
+    registerCronController(server);
 
     // All other routes: render next app.
     server.get("*", (req, res) => app.getRequestHandler()(req, res));

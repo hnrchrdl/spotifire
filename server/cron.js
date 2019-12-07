@@ -1,18 +1,20 @@
 const subscriptions = require("./subscriptions");
 
+const cronJob = (req, res) => {
+  const { subscriptionId } = req.params;
+  const subscription = subscriptions[subscriptionId];
+  res.json(subscription);
+};
+
 module.exports = server => {
   // server.get(
   //   "/cron/:playlistId",
   //   basicAuth({
   //     users: {
-  //       [process.env.BASIC_AUTH_USER]: process.env.BASIC_AUTH_PASSWORD
+  //       [process.env.CRON_USER]: process.env.CRON_PW
   //     }
   //   }),
-  //   Controller.cron
+  //   cronJob
   // );
-  server.get("/cron/:subscriptionId", (req, res) => {
-    const { subscriptionId } = req.params;
-    const subscription = subscriptions[subscriptionId];
-    res.json(subscription);
-  });
+  server.get("/cron/:subscriptionId", cronJob);
 };
