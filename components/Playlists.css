@@ -1,39 +1,39 @@
 .playlist {
-    margin: 0 0 60px;
-    padding-top: 20px;
-    display: flex;
+  margin: 0 0 60px;
+  padding-top: 20px;
+  display: flex;
 }
 @media only screen and (max-width: 600px) {
-    .playlist {
-        flex-direction: column-reverse;
-    }
+  .playlist {
+    flex-direction: column-reverse;
+  }
 }
 .playlist:not(:first-of-type) {
-    border-top: 1px solid rgba(245, 246, 250, .1);
+  border-top: 1px solid rgba(245, 246, 250, 0.1);
 }
 .heading {
-    display: flex;
-    justify-content: space-between;
-    font-size: 22px;
-    background-color: rgba(245, 246, 250, 0.05);
-    padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+  background-color: rgba(245, 246, 250, 0.05);
+  padding-left: 20px;
 }
 .title {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 .description {
-    margin: 10px 0;
-    text-align: justify;
+  margin: 10px 0;
+  text-align: justify;
 }
 .imageContainer {
-    min-width: 250px;
-    margin-right: 25px;
+  min-width: 250px;
+  margin-right: 25px;
 }
 @media only screen and (max-width: 600px) {
-    .imageContainer {
-        margin: 20px 0;
-    }
+  .imageContainer {
+    margin: 20px 0;
+  }
 }
 .image {
-    width: 100%;
+  width: 100%;
 }

@@ -1,4 +1,4 @@
-import request, { serialize } from './requestService';
+import request, { serialize } from "./requestService";
 
 class PlaylistService {
   constructor(req) {
@@ -6,7 +6,7 @@ class PlaylistService {
   }
 
   getAvailable() {
-    return this.request.get('playlist/available').then(serialize);
+    return this.request.get("playlist/available").then(serialize);
   }
 
   upsertPlaylist(id, user) {

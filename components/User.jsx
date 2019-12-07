@@ -1,19 +1,19 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import css from './User.css';
-import Header from './Header';
-import Playlists from './Playlists';
-import Footer from './Footer';
-import UserService from '../services/userService';
-import PlaylistService from '../services/playlistService';
+import React from "react";
+import css from "./User.css";
+import Header from "./Header";
+import Playlists from "./Playlists";
+import Footer from "./Footer";
+import UserService from "../services/userService";
+import PlaylistService from "../services/playlistService";
 
 class User extends React.PureComponent {
   state = {
     // eslint-disable-next-line react/destructuring-assignment
-    user: this.props.user,
+    user: this.props.user
   };
 
-  onTogglePlaylist = async (id) => {
+  onTogglePlaylist = async id => {
     const userService = new UserService();
     const playlistService = new PlaylistService();
     let enabled;
@@ -27,24 +27,24 @@ class User extends React.PureComponent {
               ...user.subscriptions,
               [id]: {
                 ...user.subscriptions[id],
-                enabled,
-              },
-            },
-          },
+                enabled
+              }
+            }
+          }
         };
       },
       async () => {
         const {
-          user: { subscriptions },
+          user: { subscriptions }
         } = this.state;
         const user = await userService.setMe({ subscriptions });
         if (enabled) {
           const updatedUser = await playlistService.upsertPlaylist(id, user);
           this.setState({
-            user: updatedUser,
+            user: updatedUser
           });
         }
-      },
+      }
     );
   };
 

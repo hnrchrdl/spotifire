@@ -1,6 +1,6 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import css from './Index.css';
+import React from "react";
+import propTypes from "prop-types";
+import css from "./Index.css";
 
 class Index extends React.PureComponent {
   render() {
@@ -20,6 +20,6 @@ class Index extends React.PureComponent {
   }
 }
 Index.propTypes = {
-  spotifyAuthUrl: propTypes.string.isRequired,
+  spotifyAuthUrl: propTypes.string.isRequired
 };
 export default Index;

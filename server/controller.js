@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
-const { getUser, setUser } = require('./firebase');
-const availablePlaylists = require('./playlists.js');
-const spotify = require('./spotify');
+const { getUser, setUser } = require("./firebase");
+const availablePlaylists = require("./playlists.js");
+const spotify = require("./spotify");
 
 const availablePlaylistData = Object.entries(availablePlaylists).map(
   ([key, data]) => ({
     id: key,
     name: data.name,
-    description: data.description,
-  }),
+    description: data.description
+  })
 );
 
 exports.getAvailablePlaylists = (req, res) => res.json(availablePlaylistData);
@@ -28,33 +28,31 @@ exports.upsertPlaylist = async (req, res) => {
       // no playlist found
       const newPlaylist = await connection.createPlaylist(
         user.id,
-        playlist.name,
+        playlist.name
       );
       spotifyPlaylist = newPlaylist.body;
     } else {
       // playlist existing?
       try {
         const existingPlaylist = await connection.getPlaylist(
-          subscription.playlistDetails.id,
+          subscription.playlistDetails.id
         );
         spotifyPlaylist = existingPlaylist.body;
       } catch (e) {
         console.log(e);
         const newPlaylist = await connection.createPlaylist(
           user.id,
-          playlist.name,
+          playlist.name
         );
         spotifyPlaylist = newPlaylist.body;
       }
     }
     await connection.replaceTracksInPlaylist(
       spotifyPlaylist.id,
-      tracks.map(track => track.uri),
+      tracks.map(track => track.uri)
     );
     const {
-      body: {
-        id, href, external_urls, description, images, name, uri,
-      },
+      body: { id, href, external_urls, description, images, name, uri }
     } = await connection.getPlaylist(spotifyPlaylist.id);
     updatedUser = await setUser({
       id: user.id,
@@ -69,10 +67,10 @@ exports.upsertPlaylist = async (req, res) => {
             description,
             images,
             name,
-            uri,
-          },
-        },
-      },
+            uri
+          }
+        }
+      }
     });
   } catch (e) {
     console.log(e);
@@ -88,9 +86,4 @@ exports.setMe = async (req, res) => {
   const user = await setUser({ id, ...data });
 
   res.json(user);
-};
-
-exports.getMyRecommendations = async (req, res) => {
-  const connection = await spotify.getAuthenticatedConnection(req);
-  res.json(await connection.getMyTopTracks());
 };
