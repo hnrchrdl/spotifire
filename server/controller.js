@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 const { getUser, setUser } = require("./firebase");
-const availablePlaylists = require("./playlists.js");
+const subscriptions = require("./subscriptions.js");
 const spotify = require("./spotify");
 
-const availablePlaylistData = Object.entries(availablePlaylists).map(
+const availablePlaylistData = Object.entries(subscriptions).map(
   ([key, data]) => ({
     id: key,
     name: data.name,
@@ -16,37 +16,36 @@ exports.getAvailablePlaylists = (req, res) => res.json(availablePlaylistData);
 exports.upsertPlaylist = async (req, res) => {
   let updatedUser;
   try {
-    const { id: playlistId } = req.params;
+    const { id: subscriptionId } = req.params;
     const { user } = req.body;
-    const playlist = availablePlaylists[playlistId];
-    const tracks = await playlist.spotifire(req);
-    const { subscriptions } = user;
-    const subscription = subscriptions[playlistId];
+
+    const subscription = subscriptions[subscriptionId];
+    const tracks = await subscription.spotifire(req);
+
     const connection = await spotify.getAuthenticatedConnection(req);
     let spotifyPlaylist;
-    if (!subscription.playlistDetails) {
-      // no playlist found
-      const newPlaylist = await connection.createPlaylist(
-        user.id,
-        playlist.name
-      );
-      spotifyPlaylist = newPlaylist.body;
-    } else {
-      // playlist existing?
+
+    if (subscription.playlistDetails) {
+      // subscription has playlist details.
       try {
         const existingPlaylist = await connection.getPlaylist(
           subscription.playlistDetails.id
         );
+        // playlist DOES EXIST on spotify account.
         spotifyPlaylist = existingPlaylist.body;
       } catch (e) {
-        console.log(e);
-        const newPlaylist = await connection.createPlaylist(
-          user.id,
-          playlist.name
-        );
-        spotifyPlaylist = newPlaylist.body;
+        // todo: check error.
+        // playlist DOES NOT EXIST on spotify account.
       }
     }
+    if (!spotifyPlaylist) {
+      const newPlaylist = await connection.createPlaylist(
+        user.id,
+        subscription.name
+      );
+      spotifyPlaylist = newPlaylist.body;
+    }
+
     await connection.replaceTracksInPlaylist(
       spotifyPlaylist.id,
       tracks.map(track => track.uri)
@@ -58,7 +57,7 @@ exports.upsertPlaylist = async (req, res) => {
       id: user.id,
       subscriptions: {
         ...subscriptions,
-        [playlistId]: {
+        [subscriptionId]: {
           ...subscription,
           playlistDetails: {
             id,
@@ -73,7 +72,7 @@ exports.upsertPlaylist = async (req, res) => {
       }
     });
   } catch (e) {
-    console.log(e);
+    // to do: error handling.
   }
   res.json(updatedUser);
 };
@@ -86,8 +85,4 @@ exports.setMe = async (req, res) => {
   const user = await setUser({ id, ...data });
 
   res.json(user);
-};
-
-exports.cronUpdates = async (req, res) => {
-  res.json("ok here");
 };

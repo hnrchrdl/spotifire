@@ -7,6 +7,8 @@ const keygrip = require("keygrip");
 const passport = require("passport");
 const { SpotifyAuthStrategy, createSpotifyAuthUrl } = require("./spotify");
 const Controller = require("./controller");
+const basicAuth = require("express-basic-auth");
+const registerCronRoutes = require("./cron");
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -25,35 +27,6 @@ function ensureAuthenticated(req, res, next) {
     return next();
   }
   res.status(401).json({ error: "not authenticated" });
-}
-
-function basicAuth(req, res, next) {
-  let username;
-  let password;
-  try {
-    [username, password] = Buffer.from(
-      req.headers.authorization.split(" ")[1],
-      "base64"
-    )
-      .toString()
-      .split(":");
-  } catch (e) {
-    res.status(401).json({
-      error: `basic auth failed. error decoding auth header ${req.headers.authorization}`
-    });
-    return;
-  }
-
-  if (
-    username === process.env.BASIC_AUTH_USER &&
-    password === process.env.BASIC_AUTH_PASSWORD
-  ) {
-    next();
-  } else {
-    res.status(401).json({
-      error: `basic auth failed. header was ${req.headers.authorization}`
-    });
-  }
 }
 
 const dev = process.env.NODE_ENV !== "production";
@@ -115,8 +88,7 @@ app
     server.get("/api/me", ensureAuthenticated, Controller.getMe);
     server.post("/api/me", ensureAuthenticated, Controller.setMe);
 
-    // Cron
-    server.get("/api/cron/:playlistId", basicAuth, Controller.cronUpdates);
+    registerCronRoutes(server);
 
     // All other routes: render next app.
     server.get("*", (req, res) => app.getRequestHandler()(req, res));
