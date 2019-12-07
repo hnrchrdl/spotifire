@@ -1,6 +1,12 @@
 .playlist {
     margin: 0 0 60px;
     padding-top: 20px;
+    display: flex;
+}
+@media only screen and (max-width: 600px) {
+    .playlist {
+        flex-direction: column-reverse;
+    }
 }
 .playlist:not(:first-of-type) {
     border-top: 1px solid rgba(245, 246, 250, .1);
@@ -18,4 +24,16 @@
 .description {
     margin: 10px 0;
     text-align: justify;
+}
+.imageContainer {
+    min-width: 250px;
+    margin-right: 25px;
+}
+@media only screen and (max-width: 600px) {
+    .imageContainer {
+        margin: 20px 0;
+    }
+}
+.image {
+    width: 100%;
 }

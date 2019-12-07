@@ -12,11 +12,6 @@ class PlaylistService {
   upsertPlaylist(id, user) {
     return this.request.post(`playlist/upsert/${id}`, { user }).then(serialize);
   }
-
-  removePlaylist(id) {
-    // todo: remove playlist
-    return null;
-  }
 }
 
 export default PlaylistService;
