@@ -1,4 +1,5 @@
 const pick = require("lodash/pick");
+const basicAuth = require("express-basic-auth");
 const subscriptions = require("./subscriptions");
 const spotify = require("./spotify");
 const { setUser, getUsersBySubscription } = require("./firebase");
@@ -62,14 +63,13 @@ const cronJob = async (req, res) => {
 };
 
 module.exports = server => {
-  // server.get(
-  //   "/cron/:playlistId",
-  //   basicAuth({
-  //     users: {
-  //       [process.env.CRON_USER]: process.env.CRON_PW
-  //     }
-  //   }),
-  //   cronJob
-  // );
-  server.get("/cron/:subscriptionId", cronJob);
+  server.get(
+    "/cron/:playlistId",
+    basicAuth({
+      users: {
+        [process.env.CRON_USER]: process.env.CRON_PW
+      }
+    }),
+    cronJob
+  );
 };
