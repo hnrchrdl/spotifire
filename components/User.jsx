@@ -38,15 +38,10 @@ class User extends React.PureComponent {
       async () => {
         const { user } = this.state;
         if (enabled) {
-          try {
-            const updatedUser = await playlistService.upsertPlaylist(id, user);
-            this.setState({
-              user: updatedUser
-            });
-          } catch (e) {
-            console.error(e);
-            throw e;
-          }
+          const updatedUser = await playlistService.upsertPlaylist(id, user);
+          this.setState({
+            user: updatedUser
+          });
         } else {
           userService.setMe({
             subscriptions: {

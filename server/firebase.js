@@ -31,3 +31,10 @@ exports.getUser = async id => {
   const doc = await docRef.get();
   return doc.data();
 };
+
+exports.getUsersBySubscription = async subscriptionId => {
+  const usersRef = db
+    .collection("users")
+    .where(`subscriptions.${subscriptionId}.enabled`, "==", true);
+  return usersRef.get();
+};

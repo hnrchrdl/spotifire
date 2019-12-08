@@ -23,10 +23,10 @@ const SPOTIFY_AUTH_SCOPES = [
 // TODO randomize?
 const SPOTIFY_AUTH_STATE = "fdsaoiewjiewoiagre4234wegegsewaoi";
 
-exports.getAuthenticatedConnection = req => {
-  const {
-    user: { id, accessToken, refreshToken, expiresOn }
-  } = req;
+exports.getAuthenticatedConnection = (
+  { userId, accessToken, refreshToken, expiresOn },
+  req
+) => {
   const connection = new SpotifyWebApi({ clientId, clientSecret, redirectUri });
 
   connection.setAccessToken(accessToken);
@@ -39,10 +39,12 @@ exports.getAuthenticatedConnection = req => {
         connection.setAccessToken(access_token);
         const newExpiresOn = new Date();
         newExpiresOn.setSeconds(newExpiresOn.getSeconds() + expires_in);
-        req.session.passport.user.accessToken = access_token;
-        req.session.passport.user.expiresOn = newExpiresOn;
+        if (req) {
+          req.session.passport.user.accessToken = access_token;
+          req.session.passport.user.expiresOn = newExpiresOn;
+        }
         return setUser({
-          id,
+          id: userId,
           accessToken: access_token,
           expiresOn: newExpiresOn
         }).then(() => connection);
