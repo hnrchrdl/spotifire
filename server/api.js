@@ -19,17 +19,6 @@ const upsertPlaylist = async (req, res) => {
   const { user } = req.body;
 
   const subscription = subscriptions[subscriptionId];
-  const tracks = await subscription
-    .spotifire(
-      {
-        userId: user.id,
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
-        expiresOn: user.expiresOn
-      },
-      req
-    )
-    .catch(e => console.log(e));
 
   const connection = await spotify
     .getAuthenticatedConnection(
@@ -41,6 +30,10 @@ const upsertPlaylist = async (req, res) => {
       },
       req
     )
+    .catch(e => console.log(e));
+
+  const tracks = await subscription
+    .spotifire(connection)
     .catch(e => console.log(e));
 
   let spotifyPlaylist;

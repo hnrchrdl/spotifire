@@ -4,13 +4,12 @@ const subscriptions = require("./subscriptions");
 const spotify = require("./spotify");
 const { setUser, getUsersBySubscription } = require("./firebase");
 
-function updatePlaylist(doc, subscription, subscriptionId) {
+function updatePlaylist(user, subscription, subscriptionId) {
   return new Promise(async (resolve, reject) => {
-    console.log(doc, subscription, subscriptionId);
-    const user = doc.data();
-    const userId = doc.id;
-    const tracks = await subscription
-      .spotifire({
+    const userId = user.id;
+
+    const connection = await spotify
+      .getAuthenticatedConnection({
         userId,
         accessToken: user.accessToken,
         refreshToken: user.refreshToken,
@@ -21,19 +20,12 @@ function updatePlaylist(doc, subscription, subscriptionId) {
         reject(e);
       });
 
-    const playlistId = user.subscriptions[subscriptionId].playlistDetails.id;
+    const tracks = await subscription.spotifire(connection).catch(e => {
+      console.log(e);
+      reject(e);
+    });
 
-    const connection = await spotify
-      .getAuthenticatedConnection({
-        userId: user.id,
-        accessToken: user.accessToken,
-        refreshToken: user.refreshToken,
-        expiresOn: user.expiresOn
-      })
-      .catch(e => {
-        console.log(e);
-        reject(e);
-      });
+    const playlistId = user.subscriptions[subscriptionId].playlistDetails.id;
 
     await connection
       .replaceTracksInPlaylist(
@@ -81,7 +73,7 @@ const cronJob = async (req, res) => {
   const usersSubscribed = await getUsersBySubscription(subscriptionId);
   const all = [];
   usersSubscribed.forEach(doc => {
-    all.push(updatePlaylist(doc, subscription, subscriptionId));
+    all.push(updatePlaylist(doc.data(), subscription, subscriptionId));
   });
   await Promise.all(all).catch(e => {
     res.status(500).json(e);
