@@ -5,9 +5,15 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const keygrip = require("keygrip");
 const passport = require("passport");
+const Sentry = require("@sentry/node");
 const { SpotifyAuthStrategy, createSpotifyAuthUrl } = require("./spotify");
 const registerApiController = require("./api");
 const registerCronController = require("./cron");
+
+if (process.env.ENVIRONMENT === "production")
+  Sentry.init({
+    dsn: "https://cab4717383294fddaac94420e0136ddc@sentry.io/1849816"
+  });
 
 if (!("toJSON" in Error.prototype))
   // eslint-disable-next-line no-extend-native
@@ -44,6 +50,9 @@ app
   .prepare()
   .then(() => {
     const server = express();
+
+    if (process.env.ENVIRONMENT === "production")
+      server.use(Sentry.Handlers.requestHandler());
 
     /*
       Middleware
@@ -88,6 +97,9 @@ app
 
     // All other routes: render next app.
     server.get("*", (req, res) => app.getRequestHandler()(req, res));
+
+    if (process.env.ENVIRONMENT === "production")
+      server.use(Sentry.Handlers.errorHandler());
 
     // //////////////////////////////////
 
