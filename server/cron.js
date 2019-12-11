@@ -73,7 +73,12 @@ const cronJob = async (req, res) => {
   const usersSubscribed = await getUsersBySubscription(subscriptionId);
   const all = [];
   usersSubscribed.forEach(doc => {
-    all.push(updatePlaylist(doc.data(), subscription, subscriptionId));
+    const data = doc.data();
+    const user = {
+      ...data,
+      expiresOn: data.expiresOn.toDate()
+    };
+    all.push(updatePlaylist(user, subscription, subscriptionId));
   });
   await Promise.all(all).catch(e => {
     res.status(500).json(e);

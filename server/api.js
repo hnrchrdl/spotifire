@@ -98,6 +98,10 @@ const getMe = async (req, res) => res.json(await getUser(req.user.id));
 const setMe = async (req, res) => {
   const { id } = req.user;
   const data = req.body;
+
+  if (id !== data.id) {
+    throw new Error("modifying user not allowed. Id is different.");
+  }
   const user = await setUser({ id, ...data });
 
   res.json(user);

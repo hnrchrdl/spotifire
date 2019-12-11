@@ -29,7 +29,11 @@ exports.getUser = async id => {
   const docRef = db.collection("users").doc(id);
 
   const doc = await docRef.get();
-  return doc.data();
+  const data = doc.data();
+  return {
+    ...data,
+    expiresOn: data.expiresOn.toDate()
+  };
 };
 
 exports.getUsersBySubscription = async subscriptionId => {
