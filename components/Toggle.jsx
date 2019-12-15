@@ -5,14 +5,17 @@ import { faToggleOff, faToggleOn } from "@fortawesome/free-solid-svg-icons";
 import cx from "classnames";
 import css from "./Toggle.css";
 
-function Toggle({ onClick, enabled }) {
+function Toggle({ onClick, enabled, withPadding, size }) {
   return (
     <button
       type="button"
-      className={cx(css.toggle, { [css.enabled]: enabled })}
+      className={cx(css.toggle, {
+        [css.enabled]: enabled,
+        [css.padded]: withPadding
+      })}
       onClick={onClick}
     >
-      <FontAwesomeIcon icon={enabled ? faToggleOn : faToggleOff} />
+      <FontAwesomeIcon icon={enabled ? faToggleOn : faToggleOff} size={size} />
     </button>
   );
 }

@@ -8,7 +8,8 @@ const availablePlaylistData = Object.entries(subscriptions).map(
   ([key, data]) => ({
     id: key,
     name: data.name,
-    description: data.description
+    description: data.description,
+    image: data.image
   })
 );
 
@@ -99,9 +100,6 @@ const setMe = async (req, res) => {
   const { id } = req.user;
   const data = req.body;
 
-  if (id !== data.id) {
-    throw new Error("modifying user not allowed. Id is different.");
-  }
   const user = await setUser({ id, ...data });
 
   res.json(user);

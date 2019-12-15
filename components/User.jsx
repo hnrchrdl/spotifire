@@ -57,6 +57,15 @@ class User extends React.PureComponent {
     );
   };
 
+  onRefresh = async id => {
+    const playlistService = new PlaylistService();
+    const { user } = this.state;
+    const updatedUser = await playlistService.upsertPlaylist(id, user);
+    this.setState({
+      user: updatedUser
+    });
+  };
+
   render() {
     const { playlists } = this.props;
     const { user } = this.state;
@@ -69,6 +78,7 @@ class User extends React.PureComponent {
               playlists={playlists}
               subscriptions={user.subscriptions}
               onToggle={this.onTogglePlaylist}
+              onRefresh={this.onRefresh}
             />
           </div>
         </div>

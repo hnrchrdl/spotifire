@@ -1,39 +1,74 @@
 .playlist {
   margin: 0 0 60px;
-  padding-top: 20px;
+  padding: 24px;
   display: flex;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  border-radius: 4px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
   .playlist {
     flex-direction: column-reverse;
   }
-}
-.playlist:not(:first-of-type) {
-  border-top: 1px solid rgba(245, 246, 250, 0.1);
 }
 .heading {
   display: flex;
   justify-content: space-between;
   font-size: 22px;
-  background-color: rgba(245, 246, 250, 0.05);
-  padding-left: 20px;
+  border-bottom: 1px solid #ecf0f1;
 }
 .title {
-  padding: 10px 0;
+  padding: 16px 0;
 }
 .description {
-  margin: 10px 0;
+  margin: 20px 0;
   text-align: justify;
 }
 .imageContainer {
-  min-width: 250px;
-  margin-right: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-@media only screen and (max-width: 600px) {
+.imageWrapper {
+  width: 250px;
+  max-width: 250px;
+  margin-right: 25px;
+  max-height: 250px;
+  position: relative;
+  box-sizing: border-box;
+}
+@media only screen and (max-width: 900px) {
   .imageContainer {
     margin: 20px 0;
+    max-width: 250px;
+  }
+  .imageWrapper {
+    margin: 0;
   }
 }
 .image {
+  max-width: 100%;
+  max-height: 100%;
+  border: 1px solid #ecf0f1;
+}
+.actionItems {
   width: 100%;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-around;
+  padding-right: 20px;
+}
+@media only screen and (max-width: 900px) {
+  .actionItems {
+    padding: 0;
+  }
+}
+.actionItems > * {
+  padding: 12px;
+  cursor: pointer;
+  color: #2980b9;
+  transition: color 0.3s;
+}
+.actionItems > *:hover {
+  color: #3498db;
 }

@@ -1,19 +1,19 @@
 .header {
-  padding: 40px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  border-bottom: 1px solid rgb(245, 246, 250, 0.1);
+  height: 80px;
+  width: 100%;
+  box-sizing: border-box;
   position: fixed;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ecf0f1;
   top: 0;
-  left: 0;
-  right: 0;
-  background-color: #2f3640;
+  background-color: white;
+  z-index: 10;
 }
 .logo {
-  font-size: 25px;
-  font-weight: 700;
-  text-align: center;
+  height: 40px;
 }
 .user {
   float: right;
