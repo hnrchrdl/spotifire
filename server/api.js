@@ -1,8 +1,15 @@
 /* eslint-disable camelcase */
 const pick = require("lodash/pick");
+const axios = require("axios");
 const { getUser, setUser } = require("./firebase");
 const subscriptions = require("./subscriptions.js");
 const spotify = require("./spotify");
+
+const handleError = e => {
+  // eslint-disable-next-line no-console
+  console.log(e);
+  throw e;
+};
 
 const availablePlaylistData = Object.entries(subscriptions).map(
   ([key, data]) => ({
@@ -31,11 +38,9 @@ const upsertPlaylist = async (req, res) => {
       },
       req
     )
-    .catch(e => console.log(e));
+    .catch(handleError);
 
-  const tracks = await subscription
-    .spotifire(connection)
-    .catch(e => console.log(e));
+  const tracks = await subscription.spotifire(connection).catch(handleError);
 
   let spotifyPlaylist;
   if (
@@ -50,27 +55,35 @@ const upsertPlaylist = async (req, res) => {
       );
       spotifyPlaylist = existingPlaylist.body;
     } catch (e) {
-      //
-      console.log(e);
+      handleError(e);
     }
   }
   if (!spotifyPlaylist) {
     const newPlaylist = await connection
       .createPlaylist(user.id, subscription.name)
-      .catch(e => console.log(e));
+      .catch(handleError);
     spotifyPlaylist = newPlaylist.body;
   }
+  // upload image
+  const url = `https://api.spotify.com/v1/playlists/${spotifyPlaylist.id}/images`;
+  axios
+    .put(url, subscription.image, {
+      headers: {
+        Authorization: `Bearer ${connection.getAccessToken()}`
+      }
+    })
+    .catch(handleError);
 
   await connection
     .replaceTracksInPlaylist(
       spotifyPlaylist.id,
       tracks.map(track => track.uri)
     )
-    .catch(e => console.log(e));
+    .catch(handleError);
 
   const playlist = await connection
     .getPlaylist(spotifyPlaylist.id)
-    .catch(e => console.log(e));
+    .catch(handleError);
 
   const updatedUser = await setUser({
     id: user.id,
@@ -89,7 +102,7 @@ const upsertPlaylist = async (req, res) => {
         updatedOn: new Date()
       }
     }
-  }).catch(e => console.log(e));
+  }).catch(handleError);
 
   res.json(updatedUser);
 };

@@ -4,7 +4,14 @@ import UserService from "../services/userService";
 import PlaylistService from "../services/playlistService";
 
 class UserPage extends React.PureComponent {
-  static getInitialProps = async ({ req }) => {
+  static getInitialProps = async ({ req, res }) => {
+    if (!req.user) {
+      res.writeHead(302, {
+        Location: "/"
+      });
+      res.end();
+      return {};
+    }
     const userService = new UserService(req);
     const user = await userService.getMe();
 

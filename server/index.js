@@ -96,7 +96,9 @@ app
     registerCronController(server);
 
     // All other routes: render next app.
-    server.get("*", (req, res) => app.getRequestHandler()(req, res));
+    server.get("*", (req, res) => {
+      app.getRequestHandler()(req, res);
+    });
 
     if (process.env.ENVIRONMENT === "production")
       server.use(Sentry.Handlers.errorHandler());

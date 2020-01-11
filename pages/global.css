@@ -4,6 +4,7 @@
 :global(body) {
   margin: 0 !important;
   background: white;
+  background: #fdfdfd;
   color: #2c3e50;
   font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI",
     "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif;
@@ -17,6 +18,7 @@
   /* #2980b9 blue2 */
   /* #2c3e50 dark */
   /* #34495e dark2 */
+  /* #e74c3c red */
 }
 :global(a) {
   text-decoration: none;

@@ -6,13 +6,18 @@ import Playlists from "./Playlists";
 import Footer from "./Footer";
 import UserService from "../services/userService";
 import PlaylistService from "../services/playlistService";
+import Toast from "./Toast";
 
 class User extends React.PureComponent {
   state = {
     // eslint-disable-next-line react/destructuring-assignment
-    user: this.props.user
+    user: this.props.user,
+    message: undefined,
+    showMessage: false,
+    messageType: "success"
   };
 
+  // eslint-disable-next-line react/sort-comp
   onTogglePlaylist = async id => {
     const userService = new UserService();
     const playlistService = new PlaylistService();
@@ -42,6 +47,7 @@ class User extends React.PureComponent {
           this.setState({
             user: updatedUser
           });
+          this.toast("subscribed to playlist");
         } else {
           userService.setMe({
             subscriptions: {
@@ -52,6 +58,7 @@ class User extends React.PureComponent {
               }
             }
           });
+          this.toast("unsubscribed to playlist");
         }
       }
     );
@@ -64,11 +71,25 @@ class User extends React.PureComponent {
     this.setState({
       user: updatedUser
     });
+    this.toast("playlist has been updated");
+  };
+
+  clearTimeout;
+
+  toast = (message, clearAfter = 3000, type = "success") => {
+    if (this.clearTimeout) clearInterval(this.clearTimeout);
+    this.setState({ message, showMessage: true, messageType: type }, () => {
+      this.clearTimeout = setTimeout(() => {
+        this.setState({ showMessage: false });
+        this.clearTimeout = undefined;
+      }, clearAfter);
+    });
   };
 
   render() {
     const { playlists } = this.props;
     const { user } = this.state;
+    const { message, showMessage, messageType } = this.state;
     return (
       <>
         <Header user={user} />
@@ -79,9 +100,11 @@ class User extends React.PureComponent {
               subscriptions={user.subscriptions}
               onToggle={this.onTogglePlaylist}
               onRefresh={this.onRefresh}
+              onPlay={() => this.toast("not implemented", undefined, "error")}
             />
           </div>
         </div>
+        <Toast message={message} show={showMessage} type={messageType} />
         <Footer />
       </>
     );

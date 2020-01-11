@@ -18,7 +18,8 @@ const SPOTIFY_AUTH_SCOPES = [
   "user-library-modify",
   "user-library-read",
   "user-read-recently-played",
-  "user-top-read"
+  "user-top-read",
+  "ugc-image-upload"
 ];
 // TODO randomize?
 const SPOTIFY_AUTH_STATE = "fdsaoiewjiewoiagre4234wegegsewaoi";
@@ -32,7 +33,6 @@ exports.getAuthenticatedConnection = (
   connection.setAccessToken(accessToken);
   if (new Date() > new Date(expiresOn)) {
     try {
-      console.log("refresh");
       connection.setRefreshToken(refreshToken);
       return connection.refreshAccessToken().then(data => {
         const { access_token, expires_in } = data.body;

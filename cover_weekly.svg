@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="73.260362"
+     inkscape:cx="72.755286"
      inkscape:cy="142.37861"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -39,7 +39,8 @@
      inkscape:window-height="1029"
      inkscape:window-x="49"
      inkscape:window-y="27"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:snap-nodes="false" />
   <metadata
      id="metadata875">
     <rdf:RDF>
@@ -56,18 +57,36 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-230.85415)">
+     transform="translate(0,-230.85415)"
+     style="display:inline">
     <flowRoot
        xml:space="preserve"
        id="flowRoot1423"
-       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:'Noto Sans Thaana';font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:'Noto Sans Thaana';font-stretch:normal;font-variant:normal"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Noto Sans Thaana';-inkscape-font-specification:'Noto Sans Thaana';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(0.26458333,0,0,0.26458333,0,230.85415)"><flowRegion
          id="flowRegion1425"><rect
            id="rect1427"
            width="147.48227"
            height="54.548237"
            x="57.578693"
            y="70.697922" /></flowRegion><flowPara
-         id="flowPara1429"></flowPara></flowRoot>    <ellipse
+         id="flowPara1429"></flowPara></flowRoot>    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.20000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1532"
+       width="68.688263"
+       height="72.697311"
+       x="-0.93544418"
+       y="228.31171"
+       inkscape:export-filename="/home/hr/Dev/projects/spotifire3/static/cover_weekly.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2">
+    <ellipse
+       transform="translate(0,-230.85415)"
        style="fill:#3498db;fill-opacity:1;stroke:none;stroke-width:0.50669694;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path819"
        cx="33.211391"
@@ -86,7 +105,7 @@
        inkscape:export-filename="/home/hr/Dev/projects/spotifire3/static/logo_round_80.png"
        inkscape:export-xdpi="45.559311"
        inkscape:export-ydpi="45.559311"
-       transform="scale(0.99836379,1.0016389)"><tspan
+       transform="matrix(0.99836377,0,0,1.0016389,0,-230.85415)"><tspan
          sodipodi:role="line"
          x="24.178854"
          y="245.43784"
@@ -95,13 +114,16 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.45833397px;line-height:1.25;font-family:Karumbi;-inkscape-font-specification:'Karumbi, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="10.851824"
-       y="275.93134"
-       id="text1454"><tspan
+       x="15.52904"
+       y="45.210819"
+       id="text1454"
+       inkscape:export-filename="/home/hr/Dev/projects/spotifire3/static/cover_daily.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
          id="tspan1452"
-         x="10.851824"
-         y="275.93134"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.45833397px;font-family:Karumbi;-inkscape-font-specification:'Karumbi, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332px">weekly</tspan></text>
+         x="15.52904"
+         y="45.210819"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.45833397px;font-family:Karumbi;-inkscape-font-specification:'Karumbi, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332px">daily</tspan></text>
   </g>
 </svg>
